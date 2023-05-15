@@ -35,10 +35,23 @@ class Library:
             "precise due date": precise_due_date,
         }
 
-        # Load existing JSON file and append new user information
+        # Load existing JSON file and update or add user information
         with open(self.filename, 'r') as file:
             data = json.load(file)
-        data['User'].append(user_info)
+
+        users = data['User']
+        user_exists = False
+
+        for user in users:
+            if user['ID'] == id:
+                # Update existing user information
+                user.update(user_info)
+                user_exists = True
+                break
+
+        if not user_exists:
+            # Add new user information
+            users.append(user_info)
 
         # Write updated JSON file
         with open(self.filename, 'w') as file:
@@ -46,128 +59,130 @@ class Library:
 
         print("User information saved to", self.filename)
 
-def nextPage():
-    root.destroy()
-    import homepage
-
-def generate_student_id():
-    # Define the length of the student ID
-    id_length = 6
-
-    # Generate a random alphanumeric ID
-    student_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=id_length))
-
-    # Add 'SE' as the initial characters
-    student_id = 'SE' + student_id
-
-    return student_id
 
 
-def select_profile_pic():
-    filetypes = (("Image files", "*.png *.jpg *.jpeg"), ("All files", "*.*"))
-    profile_pic_path = filedialog.askopenfilename(filetypes=filetypes)
-    profile_pic_entry.delete(0, tk.END)
-    profile_pic_entry.insert(0, profile_pic_path)
 
+class RegistrationPage:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title("LUTS")
 
-def register():
-    name = name_entry.get()
-    profile_pic = profile_pic_entry.get()
-    email = email_entry.get()
-    phone_number = phone_number_entry.get()
-    department = department_entry.get()
-    college_year = college_year_entry.get()
-    book_title = book_title_entry.get()
+        # Set window size and position
+        window_width = 400
+        window_height = 350
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        x = (screen_width // 2) - (window_width // 2)
+        y = (screen_height // 2) - (window_height // 2)
+        self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
-    # Perform registration logic here
+        # Create frame
+        self.frame = tk.Frame(self.root)
+        self.frame.pack(pady=20)
 
-    # Clear input fields after registration
-    name_entry.delete(0, tk.END)
-    profile_pic_entry.delete(0, tk.END)
-    email_entry.delete(0, tk.END)
-    phone_number_entry.delete(0, tk.END)
-    department_entry.delete(0, tk.END)
-    college_year_entry.delete(0, tk.END)
-    book_title_entry.delete(0, tk.END)
-    library = Library("users.json")
-    student_id = generate_student_id()
-    library.add_user_info(student_id, name, profile_pic, phone_number, book_title, email, department, college_year)
-    messagebox.showinfo("Registration", f"Registration Complete your ID is {student_id}")
-    file_path = "homepage.py"
-    nextPage()
+        # Create title label inside frame
+        title_label = tk.Label(self.frame, text="New Registration", font=("Arial", 24), fg="red")
+        title_label.grid(row=0, columnspan=4, pady=15)
 
-root = tk.Tk()
-root.title("LUTS")
+        # Create and arrange labels
+        name_label = tk.Label(self.frame, text="Name:")
+        name_label.grid(row=1, column=0, sticky=tk.W)
 
-# Set window size and position
-window_width = 400
-window_height = 350
-screen_width = root.winfo_screenwidth()
-screen_height = root.winfo_screenheight()
-x = (screen_width // 2) - (window_width // 2)
-y = (screen_height // 2) - (window_height // 2)
-root.geometry(f"{window_width}x{window_height}+{x}+{y}")
+        profile_pic_label = tk.Label(self.frame, text="Profile Pic:")
+        profile_pic_label.grid(row=2, column=0, sticky=tk.W)
 
-# Create frame
-frame = tk.Frame(root)
-frame.pack(pady=20)
+        email_label = tk.Label(self.frame, text="Email:")
+        email_label.grid(row=3, column=0, sticky=tk.W)
 
-# Create title label inside frame
-title_label = tk.Label(frame, text="New Registration", font=("Arial", 24), fg="red")
-title_label.grid(row=0, columnspan=4, pady=15)
+        phone_number_label = tk.Label(self.frame, text="Phone Number:")
+        phone_number_label.grid(row=4, column=0, sticky=tk.W)
 
-# Create and arrange labels
-name_label = tk.Label(frame, text="Name:")
-name_label.grid(row=1, column=0, sticky=tk.W)
+        department_label = tk.Label(self.frame, text="Department:")
+        department_label.grid(row=5, column=0, sticky=tk.W)
 
-profile_pic_label = tk.Label(frame, text="Profile Pic:")
-profile_pic_label.grid(row=2, column=0, sticky=tk.W)
+        college_year_label = tk.Label(self.frame, text="College Year:")
+        college_year_label.grid(row=6, column=0, sticky=tk.W)
 
-email_label = tk.Label(frame, text="Email:")
-email_label.grid(row=3, column=0, sticky=tk.W)
+        book_title_label = tk.Label(self.frame, text="Title of Book:")
+        book_title_label.grid(row=7, column=0, sticky=tk.W)
 
-phone_number_label = tk.Label(frame, text="Phone Number:")
-phone_number_label.grid(row=4, column=0, sticky=tk.W)
+        # Create and arrange entry fields
+        self.name_entry = tk.Entry(self.frame)
+        self.name_entry.grid(row=1, column=1)
 
-department_label = tk.Label(frame, text="Department:")
-department_label.grid(row=5, column=0, sticky=tk.W)
+        self.profile_pic_entry = tk.Entry(self.frame)
+        self.profile_pic_entry.grid(row=2, column=1)
 
-college_year_label = tk.Label(frame, text="College Year:")
-college_year_label.grid(row=6, column=0, sticky=tk.W)
+        profile_pic_button = tk.Button(self.frame, text="Select", command=self.select_profile_pic)
+        profile_pic_button.grid(row=2, column=2)
 
-book_title_label = tk.Label(frame, text="Title of Book:")
-book_title_label.grid(row=7, column=0, sticky=tk.W)
+        self.email_entry = tk.Entry(self.frame)
+        self.email_entry.grid(row=3, column=1)
 
-# Create and arrange entry fields
-name_entry = tk.Entry(frame)
-name_entry.grid(row=1, column=1)
+        self.phone_number_entry = tk.Entry(self.frame)
+        self.phone_number_entry.grid(row=4, column=1)
 
-profile_pic_entry = tk.Entry(frame)
-profile_pic_entry.grid(row=2, column=1)
+        self.department_entry = tk.Entry(self.frame)
+        self.department_entry.grid(row=5, column=1)
 
-profile_pic_button = tk.Button(frame, text="Select", command=select_profile_pic)
-profile_pic_button.grid(row=2, column=2)
+        self.college_year_entry = tk.Entry(self.frame)
+        self.college_year_entry.grid(row=6, column=1)
 
-email_entry = tk.Entry(frame)
-email_entry.grid(row=3, column=1)
+        self.book_title_entry = tk.Entry(self.frame)
+        self.book_title_entry.grid(row=7, column=1)
 
-phone_number_entry = tk.Entry(frame)
-phone_number_entry.grid(row=4, column=1)
+        # Create register button
+        register_button = tk.Button(self.root, text="Register", command=self.register)
+        register_button.pack(pady=10)
 
-department_entry = tk.Entry(frame)
-department_entry.grid(row=5, column=1)
+        self.library = Library("users.json")
 
-college_year_entry = tk.Entry(frame)
-college_year_entry.grid(row=6, column=1)
+    def select_profile_pic(self):
+        filetypes = (("Image files", "*.png *.jpg *.jpeg"), ("All files", "*.*"))
+        profile_pic_path = filedialog.askopenfilename(filetypes=filetypes)
+        self.profile_pic_entry.delete(0, tk.END)
+        self.profile_pic_entry.insert(0, profile_pic_path)
 
-book_title_entry = tk.Entry(frame)
-book_title_entry.grid(row=7, column=1)
+    def register(self):
+        name = self.name_entry.get()
+        profile_pic = self.profile_pic_entry.get()
+        email = self.email_entry.get()
+        phone_number = self.phone_number_entry.get()
+        department = self.department_entry.get()
+        college_year = self.college_year_entry.get()
+        book_title = self.book_title_entry.get()
 
-# Create register button
-register_button = tk.Button(root, text="Register", command=register)
-register_button.pack(pady=10)
+        student_id = self.generate_student_id()
 
-root.mainloop()
+        # Perform registration logic here
+        self.library.add_user_info(student_id, name, profile_pic, phone_number, book_title, email, department, college_year)
+        messagebox.showinfo("Registration", f"Registration Complete. Your ID is {student_id}")
 
+        # Clear input fields after registration
+        self.name_entry.delete(0, tk.END)
+        self.profile_pic_entry.delete(0, tk.END)
+        self.email_entry.delete(0, tk.END)
+        self.phone_number_entry.delete(0, tk.END)
+        self.department_entry.delete(0, tk.END)
+        self.college_year_entry.delete(0, tk.END)
+        self.book_title_entry.delete(0, tk.END)
 
+    def generate_student_id(self):
+        # Define the length of the student ID
+        id_length = 6
+
+        # Generate a random alphanumeric ID
+        student_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=id_length))
+
+        # Add 'SE' as the initial characters
+        student_id = 'SE' + student_id
+
+        return student_id
+
+    def run_page(self):
+        self.root.mainloop()
+
+    def nextPage(self):
+        self.root.destroy()
+        import homepage
 

@@ -1,12 +1,14 @@
 from tkinter import *
-from tkinter import simpledialog
+from tkinter import simpledialog, messagebox
 import json
 from PIL import ImageTk, Image
+from profilecard import ProfileCard
+from register import RegistrationPage
 
 
 def registerPage():
-    root.destroy()
-    import register
+    registration_page = RegistrationPage()
+    registration_page.run_page()
 
 
 def login():
@@ -17,12 +19,11 @@ def login():
     if name:
         for user in data['User']:
             if user.get("name") == name:
-                print("Name found:", name)
-                break
+                ProfileCard(name)
         else:
-            print("Name not found.")
+            messagebox.showinfo("Name not found.")
     else:
-        print("No name entered.")
+        messagebox.showinfo("No name entered.")
 
 
 # Create a window
