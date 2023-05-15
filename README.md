@@ -1,25 +1,20 @@
-# Web Development Projects
-Welcome to my collection of web development projects! Here you will find a variety of projects I have created to showcase my skills and experience in the field of web development.
+# LUTS - Library User Tracking System
+LUTS (Library User Tracking System) is a Python application that allows libraries to track users and register borrowed books. The application sends reminders to users via SMS and email using the SMTP and Twilio API, respectively. It was built using Python's Tkinter library for the graphical user interface.
 
-## Projects
-### Project 1: Drum kit
-The Drum Kit project is a fun and interactive web application built using JavaScript that allows users to play various musical instruments by simply pressing the corresponding keys on their keyboard.
+## Features
+* User registration: users can register for borrowing books by providing their ID, name, phone number, and email address.
+* Book registration: library staff can add new books to the system by providing the book's title, author, and other relevant information.
+* Borrowing tracking: the system keeps track of which users have borrowed which books, and when the books are due to be returned.
+* Automated reminders: the system can send automated SMS and email reminders to users when their books are due to be returned or when they are overdue.
+* Integration with Twilio API: SMS reminders are sent using the Twilio API, which allows for easy and reliable messaging.
+* Integration with SMTP protocol: email reminders are sent using the SMTP protocol, which is widely supported and easy to configure.
 
+## Built With
+Python 3.6+
+Tkinter - Python's de-facto standard GUI (Graphical User Interface) package
+SQLite - A lightweight relational database management system
+Twilio API - A cloud communication platform that enables users to send and receive SMS and MMS messages using its web service APIs
+SMTP (Simple Mail Transfer Protocol) - A protocol used for email transmission over the internet
 
-
-
-## Technologies Used
-* HTML5
-* CSS3
-* JavaScript
-
-## Installation Instructions
-To run any of these projects on your local machine, follow these steps:
-
-* Clone the repository to your local machine
-* Navigate to the project directory in the terminal
-* Install the necessary dependencies using npm install
-* Run the project using npm start or node app.js
-
-## Contact Information
-If you have any questions or feedback about any of these projects, please feel free to contact me at joywinbennis0987@gmail.com. Thank you for taking the time to check out my work!
+## Acknowledgments
+Special thanks to OpenAI for their excellent language model which helped in writing the readme file.
