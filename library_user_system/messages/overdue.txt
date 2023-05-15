@@ -1,0 +1,10 @@
+Dear [User],
+
+We hope you are doing well. Please note that you have borrowed the book titled [Title of Book] from our library and it is now overdue.
+
+We kindly request that you return the book as soon as possible or contact us to request an extension on the due date.
+
+Thank you for your cooperation. If you have any questions or need further assistance, please don't hesitate to contact us. We look forward to your next visit to our library.
+
+Best regards,
+Team SUTS

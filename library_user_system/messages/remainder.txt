@@ -1,0 +1,8 @@
+Hello [User],
+
+We hope this message finds you well. This is a reminder to you that you have borrowed the book titled "[Title of Book]" from our library on [Borrow Date] and the due date for returning it is [Due Date].
+
+Thank you for your cooperation and happy reading!
+
+Best regards,
+Team LUTS
