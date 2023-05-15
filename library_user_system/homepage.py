@@ -1,5 +1,29 @@
 from tkinter import *
+from tkinter import simpledialog
+import json
 from PIL import ImageTk, Image
+
+
+def registerPage():
+    root.destroy()
+    import register
+
+
+def login():
+    with open('users.json', 'r') as file:
+        data = json.load(file)
+
+    name = simpledialog.askstring("Login", "Enter your name:")
+    if name:
+        for user in data['User']:
+            if user.get("name") == name:
+                print("Name found:", name)
+                break
+        else:
+            print("Name not found.")
+    else:
+        print("No name entered.")
+
 
 # Create a window
 root = Tk()
@@ -20,10 +44,11 @@ title_label.place(x=70, y=200)
 description_label = Label(root, text="Manage and keep track of all your books with ease.", font=("Helvetica", 12))
 description_label.place(x=165, y=250)
 
-register_button = Button(root, text="New Registration", font=("Helvetica", 14), bg="#4CAF50", fg="black")
+register_button = Button(root, text="New Registration", font=("Helvetica", 14), bg="#4CAF50", fg="black",
+                         command=registerPage)
 register_button.place(x=215, y=300)
 
-login_button = Button(root, text="Login", font=("Helvetica", 14), bg="#4CAF50", fg="black")
+login_button = Button(root, text="Login", font=("Helvetica", 14), bg="#4CAF50", fg="black", command=login)
 login_button.place(x=250, y=330)
 
 # Run the GUI
